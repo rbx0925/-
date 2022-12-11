@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--自动驼峰-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--延迟加载-->
+        <!--缓存-->
+        <!--自动映射：默认是开的，一般不关-->
+    </settings>
+    <!--起别名-->
+    <typeAliases>
+        <package name="com.atguigu"/>
+    </typeAliases>
+    <!--分页插件：用到的时候在配置-->
+    <plugins>
+        <!-- com.github.pagehelper 为 PageHelper 类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL 六种数据库-->
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
+    <!--数据库厂商的标识：看需求-->
+
+    <!--其他的都交给Spring了-->
+</configuration>

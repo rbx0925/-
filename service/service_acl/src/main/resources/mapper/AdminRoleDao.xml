@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.AdminRoleDao">
+
+   <!--List<Long> findRoleIdsByAdminId(Long adminId);-->
+    <select id="findRoleIdsByAdminId" resultType="long">
+        select role_id from acl_admin_role where admin_id=#{adminId} and is_deleted=0
+    </select>
+
+    <!--void deleteByAdminId(Long adminId);-->
+    <update id="deleteByAdminId" >
+        update acl_admin_role set is_deleted=1 where admin_id=#{adminId}
+    </update>
+
+    <insert id="insert">
+        insert into acl_admin_role(role_id,admin_id)
+        values(#{roleId},#{adminId})
+    </insert>
+</mapper>

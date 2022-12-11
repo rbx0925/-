@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.RoleDao">
+
+    <sql id="columns">
+        select id,role_name,role_code,description,create_time,update_time,is_deleted
+        from acl_role
+    </sql>
+
+    <!--内部标签先删除-->
+    <!--List<Role> findAll();-->
+    <select id="findAll" resultType="role">
+        <include refid="columns"></include>
+         where is_deleted=0
+    </select>
+
+    <!--List<Role> findPage(Map<String,Object> filters);-->
+    <select id="findPage" resultType="role">
+        <include refid="columns"></include>
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                role_name like concat('%',#{roleName},'%')
+            </if>
+
+            and is_deleted=0
+        </where>
+    </select>
+
+    <!--void insert(Role role);-->
+    <insert id="insert">
+        INSERT INTO acl_role(role_name,role_code,description) VALUES(#{roleName},#{roleCode},#{description})
+    </insert>
+
+    <!--Role getById(Long roleId);-->
+    <select id="getById" resultType="role">
+        <include refid="columns"></include>
+        where id=#{id} and is_deleted=0
+    </select>
+
+    <!--void update(Role role);-->
+    <update id="update">
+        update acl_role
+        <set>
+            <if test="roleName!=null and roleName!=''">
+                role_Name=#{roleName},
+            </if>
+            <if test="roleCode!=null and roleCode!=''">
+                role_Code=#{roleCode},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--void delete(Long roleId);
+        实际工作中，删除操作是修改操作
+    -->
+    <update id="delete">
+        update acl_role set is_deleted=1 where id=#{id}
+    </update>
+</mapper>

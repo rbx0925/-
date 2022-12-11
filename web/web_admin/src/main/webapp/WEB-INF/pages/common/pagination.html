@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="pagination">
+        <!--隐藏域，name是pageNum-->
+        <input type="hidden" name="pageNum">
+        <div class="col-sm-6">
+            <div class="dataTables_info" id="DataTables_Table_0_info" role="alert" aria-live="polite" aria-relevant="all">显示
+                <span th:text="${page.startRow}"></span> 到 <span th:text="${page.endRow}"></span> 项，
+                共 <span th:text="${page.total}"></span> 项
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                <ul class="pagination">
+                    <!--首页-->
+                    <li th:if="${page.isFirstPage}" class="paginate_button previous disabled" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_previous">
+                        <a href="javascript:;">首页</a>
+                    </li>
+                    <li th:if="${!page.isFirstPage}" class="paginate_button previous" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_previous">
+                        <a th:href="'javascript:document.forms.ec.pageNum.value=1;document.forms.ec.submit();'">首页</a>
+                    </li>
+                    <!--上一页-->
+                    <li th:if="${page.isFirstPage}" class="paginate_button previous disabled" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_previous">
+                        <a href="javascript:;">上一页</a>
+                    </li>
+                    <li th:if="${!page.isFirstPage}" class="paginate_button previous" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_previous">
+                        <a th:href="'javascript:document.forms.ec.pageNum.value='+${page.prePage}+';document.forms.ec.submit();'">上一页</a>
+                    </li>
+                    <!--页码-->
+                    <li th:class="${i==page.pageNum?'paginate_button active':'paginate_button'}" aria-controls="DataTables_Table_0" tabindex="0" th:each="i:${page.navigatepageNums}">
+                        <a th:href="'javascript:document.forms.ec.pageNum.value='+${i}+';document.forms.ec.submit();'" th:text="${i}"></a>
+                    </li>
+                    <!--下一页-->
+                    <li th:if="${page.isLastPage}" class="paginate_button next disabled" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_next">
+                        <a href="javascript:;">下一页</a>
+                    </li>
+                    <li th:if="${!page.isLastPage}" class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_next">
+                        <a th:href="'javascript:document.forms.ec.pageNum.value='+${page.nextPage}+';document.forms.ec.submit();'">下一页</a>
+                    </li>
+                    <!--尾页-->
+                    <li th:if="${page.isLastPage}" class="paginate_button next disabled" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_next">
+                        <a href="javascript:;">尾页</a>
+                    </li>
+                    <li th:if="${!page.isLastPage}" class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0"
+                        id="DataTables_Table_0_next">
+                        <a th:href="'javascript:document.forms.ec.pageNum.value='+${page.pages}+';document.forms.ec.submit();'">尾页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

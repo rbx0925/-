@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.HouseUserDao">
+
+   <!--List<HouseUser> findUserByHouseId(Long houseId);-->
+    <select id="findUserByHouseId" resultType="houseUser">
+        select * from hse_house_user where house_id=#{houseId} and is_deleted=0
+    </select>
+
+    <insert id="insert">
+        INSERT INTO hse_house_user(house_id,NAME,phone,sex,id_no)
+        VALUES(#{houseId},#{name},#{phone},#{sex},#{idNo})
+    </insert>
+
+    <select id="getById" resultType="houseUser">
+        select * from hse_house_user where id=#{id} and is_deleted=0
+    </select>
+
+    <update id="update">
+        update hse_house_user
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="idNo!=null and idNo!=''">
+                id_No=#{idNo},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        update hse_house_user set is_deleted=1 where id=#{id}
+    </update>
+</mapper>

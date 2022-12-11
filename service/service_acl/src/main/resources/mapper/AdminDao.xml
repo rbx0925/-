@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.AdminDao">
+
+    <!--List<Admin> findPage(Map<String,Object> filters);-->
+    <select id="findPage" resultType="admin">
+        select * from acl_admin
+        <where>
+            <if test="username!=null and username!=''">
+                and username like concat('%',#{username},'%')
+            </if>
+            <if test="name!=null and name!=''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="phone!=null and phone!=''">
+                and phone=#{phone}
+            </if>
+            <if test="createTimeBegin!=null and createTimeBegin!=''">
+                and create_Time &gt; #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd!=null and createTimeEnd!=''">
+                and create_Time &lt; #{createTimeEnd}
+            </if>
+            and is_deleted=0
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into acl_admin(username,password,name,phone,head_url,description)
+        values(#{username},#{password},#{name},#{phone},#{headUrl},#{description})
+    </insert>
+
+    <select id="getById" resultType="admin">
+        select * from acl_admin where id=#{id} and is_deleted=0
+    </select>
+
+    <update id="update">
+        update acl_admin
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="headUrl!=null and headUrl!=''">
+                head_url=#{headUrl},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete">
+        update acl_admin set is_deleted=1 where id=#{id}
+    </update>
+
+    <!--Admin findAdminByUsername(String username);-->
+    <select id="findAdminByUsername" resultType="Admin">
+        select * from acl_admin where username=#{username} and is_deleted=0
+    </select>
+</mapper>

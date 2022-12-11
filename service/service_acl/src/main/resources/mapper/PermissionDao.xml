@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.PermissionDao">
+
+   <!--List<Permission> findAll();-->
+    <select id="findAll" resultType="permission">
+        select * from acl_permission where is_deleted=0
+    </select>
+
+    <!--List<Permission> findPermissionByAdminId(Long adminId);-->
+    <select id="findPermissionByAdminId" resultType="permission">
+        SELECT DISTINCT ap.* FROM acl_admin_role aar LEFT JOIN acl_role_permission arp
+        ON aar.`role_id`=arp.`role_id` LEFT JOIN acl_permission ap
+        ON arp.`permission_id`=ap.`id`
+        WHERE aar.`admin_id`=#{adminId}
+        AND ap.`type`=1
+        AND aar.`is_deleted`=0
+        AND arp.`is_deleted`=0
+        AND ap.`is_deleted`=0
+    </select>
+
+    <insert id="insert">
+        insert into acl_permission(parent_Id,type,name,url,code,sort)
+        values(#{parentId},#{type},#{name},#{url},#{code},#{sort})
+    </insert>
+
+    <select id="getById" resultType="permission">
+        select * from acl_permission where id=#{id} and is_deleted=0
+    </select>
+
+    <update id="update">
+        update acl_permission
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="url!=null and url!=''">
+                url=#{url},
+            </if>
+            <if test="code!=null and code!=''">
+                code=#{code},
+            </if>
+            <if test="sort!=null and sort!=''">
+                sort=#{sort},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--List<Permission> findPermissionByParentId(Long parentId);-->
+    <select id="findPermissionByParentId" resultType="permission">
+        select * from acl_permission where parent_id=#{parentId} and is_deleted=0
+    </select>
+
+    <update id="delete">
+        update acl_permission set is_deleted=1 where id=#{id}
+    </update>
+
+    <!--List<String> findPermissionCodeByAdminId(Long adminId);-->
+    <select id="findPermissionCodeByAdminId" resultType="string">
+        SELECT DISTINCT ap.code FROM acl_admin_role aar LEFT JOIN acl_role_permission arp
+        ON aar.`role_id`=arp.`role_id` LEFT JOIN acl_permission ap
+        ON arp.`permission_id`=ap.`id`
+        WHERE aar.`admin_id`=#{adminId}
+        AND ap.`type`=2
+        AND aar.`is_deleted`=0
+        AND arp.`is_deleted`=0
+        AND ap.`is_deleted`=0
+    </select>
+    <!--List<String> findAllCode();-->
+    <select id="findAllCode" resultType="string">
+        select code from acl_permission where is_deleted=0 and type=2
+    </select>
+</mapper>

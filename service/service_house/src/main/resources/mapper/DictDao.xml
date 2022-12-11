@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.DictDao">
+
+    <!--List<Dict> findZnodes(Long parentId);-->
+    <select id="findZnodes" resultType="dict">
+        select * from hse_dict where parent_id=#{parentId} and is_deleted=0
+    </select>
+
+    <!--Long findCountByParentId(Long parentId);-->
+    <select id="findCountByParentId" resultType="long">
+        select count(*) from hse_dict where parent_id=#{parentId} and is_deleted=0
+    </select>
+
+    <!--Dict findDictByCode(String code);-->
+    <select id="findDictByCode" resultType="dict">
+        select * from hse_dict where dict_code=#{code} and is_deleted=0
+    </select>
+
+    <!--Dict getById(Long id);-->
+    <select id="getById" resultType="dict">
+        select * from hse_dict where id=#{id} and is_deleted=0
+    </select>
+</mapper>

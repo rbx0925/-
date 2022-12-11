@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.UserInfoDao">
+    <!--UserInfo findUserInfoByPhone(String phone);-->
+    <select id="findUserInfoByPhone" resultType="userInfo">
+        select * from user_info where phone=#{phone} and is_deleted=0
+    </select>
+
+    <insert id="insert">
+        insert into user_info(phone,nick_name,password)
+        values(#{phone},#{nickName},#{password})
+    </insert>
+</mapper>

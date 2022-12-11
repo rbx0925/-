@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.HouseBrokerDao">
+
+    <!--List<HouseBroker> findBrokerByHouseId(Long houseId);-->
+    <select id="findBrokerByHouseId" resultType="houseBroker">
+        SELECT hhb.*,aa.name brokerName,aa.head_url brokerHeadUrl FROM hse_house_broker hhb JOIN acl_admin aa
+        ON hhb.broker_id=aa.id WHERE hhb.house_id=#{houseId}
+        AND hhb.is_deleted=0 AND aa.is_deleted=0
+    </select>
+
+    <!--List<Admin> findHouseOtherBroker(List<Long> ids);
+        ids这个集合有可能是没有长度的，因为这个房源最开始一个经纪人都没有
+    -->
+    <select id="findHouseOtherBroker" resultType="admin">
+        SELECT * FROM acl_admin
+        <where>
+            <if test="list.size>0">
+                id not in
+                <foreach collection="list" open="(" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </if>
+            and is_deleted=0
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into hse_house_broker(house_id,broker_id)
+        values(#{houseId},#{brokerId})
+    </insert>
+
+    <update id="delete">
+        update hse_house_broker set is_deleted=1 where id=#{id}
+    </update>
+</mapper>

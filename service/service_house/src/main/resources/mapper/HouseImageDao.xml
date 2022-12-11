@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间设置成RoleDao的全类名-->
+<mapper namespace="com.atguigu.dao.HouseImageDao">
+
+    <!--List<HouseImage> findImageByHouseIdAndType(Long houseId, Integer type);-->
+    <select id="findImageByHouseIdAndType" resultType="houseImage">
+        select * from hse_house_image where house_id=#{param1} and type=#{param2} and is_deleted=0
+    </select>
+
+    <insert id="insert">
+        insert into hse_house_image(house_id,image_name,image_url,type)
+        values(#{houseId},#{imageName},#{imageUrl},#{type})
+    </insert>
+
+    <update id="delete">
+        update hse_house_image set is_deleted=1 where id=#{id}
+    </update>
+
+    <select id="getById" resultType="houseImage">
+        select * from hse_house_image where id=#{id} and is_deleted=0
+    </select>
+</mapper>
